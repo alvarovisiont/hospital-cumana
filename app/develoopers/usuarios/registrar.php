@@ -29,9 +29,9 @@
 		<input type="hidden" name="updated_at" value="<?= date('Y-m-d H:i:s', strtotime('-6 hour')) ?>">
 		
 		<ul class="nav nav-pills nav-justified">
-      <li class="active"><a href="#datos" data-toggle="pill">Datos</a></li>
-      <li><a href="#permisos" data-toggle="pill">Permisos</a></li>     
-    </ul>
+	      <li class="active"><a href="#datos" data-toggle="pill">Datos</a></li>
+	      <li><a href="#permisos" data-toggle="pill">Permisos</a></li>     
+	    </ul>
 
     <div class="tab-content">
 		  <div class="tab-pane fade in active" id="datos" role="tabpanel">

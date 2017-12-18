@@ -22,12 +22,19 @@
         <!-- AdminLTE App --> 
         <script src="<?= $_SESSION['base_url1'].'/assets/js/app.min.js' ?>"></script>
         <!--Datatables -->
-        <script src="<?= $_SESSION['base_url1'].'/assets/js/jquery.dataTables.js' ?>"></script>
+        <script src="<?= $_SESSION['base_url1'].'/assets/js/jquery.dataTables.js'    ?>"></script>
         <script src="<?= $_SESSION['base_url1'].'/assets/js/dataTables.bootstrap.js' ?>"></script>
-        <?
-          echo "<script src=\"$_SESSION[base_url1]/assets/js/bootstrap-datepicker.js\"></script>";
-          echo "<script src=\"$_SESSION[base_url1]/assets/js/bootstrap-datepicker.es.min.js\"></script>";
-        ?>
+        <script src="<?= $_SESSION['base_url1'].'/assets/js/bootstrap-datepicker.js' ?>"></script>";
+        <script src="<?= $_SESSION['base_url1'].'/assets/js/bootstrap-datepicker.es.min.js' ?>"></script>
       </footer>
   </body>
 </html>
+<script>
+  $(function(){
+    $('.date-picker').datepicker({
+      format: 'dd-mm-yyyy',
+      autoclose: true,
+      language: 'es'
+    })
+  })
+</script>

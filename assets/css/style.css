@@ -24,6 +24,11 @@
 	text-decoration: none;
 }
 
+.fondo_rojo{
+	background-color: darkred;
+	color: white;
+}
+
 .subrayado_rojo:before
 {
 	/* subrayado_rojo */

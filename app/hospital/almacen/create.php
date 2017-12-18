@@ -6,23 +6,28 @@
 
 	include_once $_SESSION['base_url'].'/partials/header.php';
 
-	$categoria = null;
+	$producto = null;
 
 	if(isset($_GET['modificar']))
 	{
 		$system->table = "hospital.categorias";
-		$categoria = $system->find($_GET['modificar']);
+		$producto = $system->find($_GET['modificar']);
 	}
 ?>
 	<form action="#" class="form-horizontal" id="form_registrar">
 
-		<input type="hidden" name="action" value="<?= $categoria ? 'modificar' : 'registrar'; ?>">
-		<input type="hidden" name="id_modificar" value="<?= $categoria ? $categoria->id : ''; ?>">
+		<input type="hidden" name="action" value="<?= $producto ? 'modificar' : 'registrar'; ?>">
+		<input type="hidden" name="id_modificar" value="<?= $producto ? $producto->id : ''; ?>">
+		<input type="hidden" name="fecha_ingreso" value="<?= $producto ? $producto->fecha_ingreso : date('Y-m-d H:s:i', strtotime('-5 hour')); ?>">
 		
 		<div class="form-group">
-			<label for="" class="control-label col-md-4 col-sm-4">Nombre Categoría</label>
+			<label for="" class="control-label col-md-2 col-sm-2">Producto</label>
 			<div class="col-md-4 col-sm-4">
-				<input type="text" id="nombre" name="nombre" class="form-control text-center" required="" value="<?= $categoria ? $categoria->nombre : ''; ?>">
+				<input type="text" id="producto" name="producto" class="form-control text-center" required="" value="<?= $producto ? $producto->producto : ''; ?>">
+			</div>
+			<label for="" class="control-label col-md-2 col-sm-2">Cantidad</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="number" id="cantidad" name="cantidad" class="form-control text-center" required="" value="<?= $producto ? $producto->cantidad : ''; ?>">
 			</div>
 			
 		</div>
@@ -31,7 +36,7 @@
 				<button type="submit" class="btn btn-primary btn-block" <?= $_SESSION['nivel'] == 4 ? 'disabled': ''; ?>>Guardar&nbsp;<i class="fa fa-send"></i></button>
 			</div>
 			<div class="col-md-offset-1 col-sm-offset-1  col-md-3 col-sm-3">
-				<a href="<?= './index.php' ?>">Regresar a la Vista de Categorías</a>
+				<a href="<?= './index.php' ?>">Regresar a la Vista de Productos</a>
 			</div>
 		</div>
 		<div class="form-group" id="div_alerta" style="display: none">

@@ -96,11 +96,9 @@
 		})
 
 		$('#agregar_si').click(function(){
+			
 			$('#div_alerta').hide('slow/400/fast')
-			var codigo = $('#codigo').val()
-			codigo = parseInt(codigo) + 1;
 			$('#form_registrar')[0].reset()
-			$('#codigo').val(codigo)
 			valida_envio_formulario = true
 		})
 

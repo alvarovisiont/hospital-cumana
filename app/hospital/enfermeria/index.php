@@ -6,14 +6,14 @@
 
 	include_once $_SESSION['base_url'].'/partials/header.php';
 
-	$system->table = "hospital.medicos";
+	$system->table = "hospital.enfermeria";
 	$total = $system->count();
 ?>
 	<div class="info-box">
 	  <!-- Apply any bg-* class to to the icon to color it -->
-	  	<span class="info-box-icon bg-red"><i class="fa fa-star-o"></i></span>
+	  	<span class="info-box-icon bg-blue"><i class="fa fa-star-o"></i></span>
 	  	<div class="info-box-content">
-		    <span class="info-box-text">Total Medicos </span>
+		    <span class="info-box-text">Total Personal </span>
 	    	<span class="info-box-number" id="total_registros"><?= $total; ?></span>
 	    	<br>
 	  	</div><!-- /.info-box-content -->
@@ -21,11 +21,11 @@
 	<p class="alert text-center" id="aviso" style="display: none">
 		<span id="texto"></span>&nbsp;&nbsp;<i class="fa fa-exclamation-circle"></i>
 	</p>
-	<div class="box box-warning color-palette-box">
+	<div class="box box-info color-palette-box">
 	    <div class="box-header with-border">
-	      	<h2 class="box-title"><i class="fa fa-user-md"></i>&nbsp;&nbsp;Medicos Registrados</h2>
+	      	<h2 class="box-title"><i class="fa fa-users"></i>&nbsp;&nbsp;Enfermeras/os Registrados</h2>
 	      	<div class="pull-right">
-	       		<a href="./create.php" class="btn btn-success btn-flat btn-md pull-right">Registrar Medicos&nbsp;&nbsp;<i class="fa fa-pencil"></i><i class="fa fa-plus"></i></a>
+	       		<a href="./create.php" class="btn btn-warning btn-flat btn-md pull-right">Registrar Personal&nbsp;&nbsp;<i class="fa fa-pencil"></i><i class="fa fa-plus"></i></a>
 	      	</div>
 	    </div>
 	    <div class="box-body">
@@ -35,8 +35,8 @@
 	    				<th class="text-center">Nombre Completo</th>
 	    				<th class="text-center">Cédula</th>
 	    				<th class="text-center">Teléfono</th>
+	    				<th class="text-center">Fecha Nacimiento</th>
 	    				<th class="text-center">Turno</th>
-	    				<th class="text-center">Departamento</th>
 	    				<? if($_SESSION['nivel'] !== 4)
 	    				{
 	    					echo '<th class="text-center">Acción</th>';
@@ -47,9 +47,9 @@
 	    		<tbody class="text-center">
 	    			<?
 	    				$system->sql = "SELECT *, 
-	    								(SELECT nombre from hospital.departamentos where id = hospital.medicos.departamento) as departamento,
-	    								(SELECT turno from hospital.turnos where id = hospital.medicos.turno) as turno
-	    								from hospital.medicos";
+	    								(SELECT turno from hospital.turnos where id = hospital.enfermeria.turno) as turno,
+	    								to_char(hospital.enfermeria.fecha_nacimiento, 'DD-MM-YYYY') as fecha_nacimiento
+	    								from hospital.enfermeria";
 	    				foreach ($system->sql() as $row) 
 	    				{
 	    					$fila  = "";
@@ -57,7 +57,7 @@
 
 	    					if($_SESSION['nivel'] !== 4)
 	    					{
-	    						$boton = '<a href="./view.php?id='.$row->id.'" class="letras_medianas" title="ver detalles"><i class="fa fa-search"></i></a>
+	    						$boton = '<a href="./create.php?modificar='.$row->id.'" class="letras_medianas" title="ver detalles"><i class="fa fa-search"></i></a>
 	    							&nbsp;
 	    							<a href="#" class="letras_medianas eliminar" data-eliminar="'.$row->id.'" title="eliminar"><i class="fa fa-trash"></i></a>';
 
@@ -69,8 +69,8 @@
 									<td>{$row->nombre_completo}</td>
 									<td>{$row->cedula}</td>
 									<td>{$row->telefono}</td>
+									<td>{$row->fecha_nacimiento}</td>
 									<td>{$turno}</td>
-									<td>{$row->departamento}</td>
 									{$fila}
 								</tr>
 	    					";

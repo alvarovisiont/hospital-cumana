@@ -18,7 +18,7 @@
 				'nombre_completo' => $_POST['nombre_completo'],
 				'cedula' => $_POST['cedula'],
 				'usuario' => $_POST['usuario'],
-				'password' => $_POST['password'],
+				'password' => password_hash($_POST['password'],PASSWORD_DEFAULT),
 				'telefono' => $_POST['telefono'],
 				'rol_id' => $_POST['rol_id'],
 				'created_at' => $_POST['created_at'],

@@ -6,25 +6,61 @@
 
 	include_once $_SESSION['base_url'].'/partials/header.php';
 
-	$categoria = null;
+	$habitacion = null;
 
 	if(isset($_GET['modificar']))
 	{
-		$system->table = "hospital.categorias";
-		$categoria = $system->find($_GET['modificar']);
+		$system->table = "hospital.habitaciones";
+		$habitacion = $system->find($_GET['modificar']);
 	}
 ?>
 	<form action="#" class="form-horizontal" id="form_registrar">
 
-		<input type="hidden" name="action" value="<?= $categoria ? 'modificar' : 'registrar'; ?>">
-		<input type="hidden" name="id_modificar" value="<?= $categoria ? $categoria->id : ''; ?>">
+		<input type="hidden" name="action" value="<?= $habitacion ? 'modificar' : 'registrar'; ?>">
+		<input type="hidden" name="id_modificar" value="<?= $habitacion ? $habitacion->id : ''; ?>">
 		
 		<div class="form-group">
-			<label for="" class="control-label col-md-4 col-sm-4">Nombre Categoría</label>
+			<label for="" class="control-label col-md-2 col-sm-2">Departamento</label>
 			<div class="col-md-4 col-sm-4">
-				<input type="text" id="nombre" name="nombre" class="form-control text-center" required="" value="<?= $categoria ? $categoria->nombre : ''; ?>">
+				<select name="departamento_id" id="departamento_id" class="form-control" required="">
+					<option value=""></option>
+					<?
+						$system->sql = "SELECT * from hospital.departamentos";
+						foreach ($system->sql() as $row) 
+						{
+							if($habitacion)
+							{
+								if($habitacion->departamento_id == $row->id)
+								{
+									echo '<option value="'.$row->id.'" selected>'.$row->nombre.'</option>';
+								}
+								else
+								{
+									echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';
+								}
+							}
+							else
+							{
+								echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';
+							}
+						}
+					?>			
+				</select>
 			</div>
-			
+			<label for="" class="control-label col-md-2 col-sm-2">Piso</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="number" id="piso" name="piso" class="form-control text-center" required="" value="<?= $habitacion ? $habitacion->piso : ''; ?>">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="control-label col-md-2 col-sm-2">Número Habitación</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="number" id="numero_habitacion" name="numero_habitacion" class="form-control text-center" required="" value="<?= $habitacion ? $habitacion->numero_habitacion : ''; ?>">
+			</div>
+			<label for="" class="control-label col-md-2 col-sm-2">Cant. Camillas</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="number" id="cantidad_camillas" name="cantidad_camillas" class="form-control text-center" required="" value="<?= $habitacion ? $habitacion->cantidad_camillas : ''; ?>" placeholder="Cantidad de camillas en la habitación">
+			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4">

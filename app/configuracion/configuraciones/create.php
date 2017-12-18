@@ -6,32 +6,51 @@
 
 	include_once $_SESSION['base_url'].'/partials/header.php';
 
-	$categoria = null;
+	$configuracion = null;
 
 	if(isset($_GET['modificar']))
 	{
-		$system->table = "hospital.categorias";
-		$categoria = $system->find($_GET['modificar']);
+		$system->table = "hospital.configuracion";
+		$configuracion = $system->find($_GET['modificar']);
 	}
 ?>
-	<form action="#" class="form-horizontal" id="form_registrar">
+	<form action="#" class="form-horizontal" id="form_registrar" enctype="multipart/form-data">
 
-		<input type="hidden" name="action" value="<?= $categoria ? 'modificar' : 'registrar'; ?>">
-		<input type="hidden" name="id_modificar" value="<?= $categoria ? $categoria->id : ''; ?>">
+		<input type="hidden" name="action" value="<?= $configuracion ? 'modificar' : 'registrar'; ?>">
+		<input type="hidden" name="id_modificar" value="<?= $configuracion ? $configuracion->id : ''; ?>">
 		
 		<div class="form-group">
-			<label for="" class="control-label col-md-4 col-sm-4">Nombre Categoría</label>
+			<label for="" class="control-label col-md-2 col-sm-2">Nombre Hospital</label>
 			<div class="col-md-4 col-sm-4">
-				<input type="text" id="nombre" name="nombre" class="form-control text-center" required="" value="<?= $categoria ? $categoria->nombre : ''; ?>">
+				<input type="text" id="nombre_hospital" name="nombre_hospital" class="form-control text-center" required="" value="<?= $configuracion ? $configuracion->nombre_hospital : ''; ?>">
 			</div>
-			
+			<label for="" class="control-label col-md-2 col-sm-2">Teléfono</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="number" id="telefono" name="telefono" class="form-control text-center" required="" value="<?= $configuracion ? $configuracion->telefono : ''; ?>">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="control-label col-md-2 col-sm-2">Dirección</label>
+			<div class="col-md-4 col-sm-4">
+				<textarea name="direccion" id="direccion" rows="3" class="form-control requerido" required=""><?= $configuracion ? $configuracion->direccion : ''; ?> </textarea>
+			</div>
+			<label for="" class="control-label col-md-2 col-sm-2">Director</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="text" id="director" name="director" class="form-control text-center" required="" value="<?= $configuracion ? $configuracion->director : ''; ?>">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="" class="control-label col-md-2 col-sm-2">Logo</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="file" name="logo">
+			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4">
 				<button type="submit" class="btn btn-primary btn-block" <?= $_SESSION['nivel'] == 4 ? 'disabled': ''; ?>>Guardar&nbsp;<i class="fa fa-send"></i></button>
 			</div>
 			<div class="col-md-offset-1 col-sm-offset-1  col-md-3 col-sm-3">
-				<a href="<?= './index.php' ?>">Regresar a la Vista de Categorías</a>
+				<a href="<?= './index.php' ?>">Regresar a la Vista de Configuración</a>
 			</div>
 		</div>
 		<div class="form-group" id="div_alerta" style="display: none">
@@ -66,12 +85,17 @@
 			
 			var tipo = $('input[name="action"]').val()
 
+			var formData = new FormData($("#form_registrar")[0]);
+
 			$.ajax({
 
 				url: './operaciones.php',
 				type: 'POST',
-				data: $(this).serialize(),
+				data: formData,
 				dataType: 'JSON',
+				cache: false,
+                contentType: false,
+                processData: false,
 				success: function(data)
 				{
 					if(data.r)

@@ -35,9 +35,9 @@
 		}
 	?>
 		<div class="col-md-3">
-			<label for="<?= $row1->nombre; ?>" class="radio-inline">
+			<label for="<?= $row1->nombre.''.$row->id; ?>" class="radio-inline">
 				<?= '<strong>'.$row1->nombre.'</strong>'; ?>
-				<input type="checkbox" id="<?= $row1->nombre; ?>" name="area_<?=$row->id;?>[]" multiple="" value="<?= $row1->id; ?>" class="area_checkbox" data-departamento="<?= $row->id; ?>" <?= $check; ?> >
+				<input type="checkbox" id="<?= $row1->nombre.''.$row->id; ?>" name="area_<?=$row->id;?>[]" multiple="" value="<?= $row1->id; ?>" class="area_checkbox" data-departamento="<?= $row->id; ?>" <?= $check; ?> >
 			</label>
 
 			<? //**========================= SUB AREAS ======================= ?>

@@ -6,98 +6,46 @@
 
 	include_once $_SESSION['base_url'].'/partials/header.php';
 
-	$medico = null;
+	$enfermera = null;
 
 	if(isset($_GET['modificar']))
 	{
-		$system->table = "hospital.medicos";
-		$medico = $system->find($_GET['modificar']);
+		$system->table = "hospital.enfermeria";
+		$enfermera = $system->find($_GET['modificar']);
 	}
 
 
 ?>
 	<form action="#" class="form-horizontal" id="form_registrar">
 
-		<input type="hidden" name="action" value="<?= $medico ? 'modificar' : 'registrar'; ?>">
-		<input type="hidden" name="id_modificar" value="<?= $medico ? $medico->id : ''; ?>">
+		<input type="hidden" name="action" value="<?= $enfermera ? 'modificar' : 'registrar'; ?>">
+		<input type="hidden" name="id_modificar" value="<?= $enfermera ? $enfermera->id : ''; ?>">
 		
 		<div class="form-group">
 			<label for="" class="control-label col-md-2 col-sm-2">Nombre Completo</label>
 			<div class="col-md-4 col-sm-4">
-				<input type="text" id="nombre_completo" name="nombre_completo" class="form-control text-center" required="" value="<?= $medico ? $medico->nombre_completo : ''; ?>">
+				<input type="text" id="nombre_completo" name="nombre_completo" class="form-control text-center" required="" value="<?= $enfermera ? $enfermera->nombre_completo : ''; ?>">
 			</div>
 			<label for="" class="control-label col-md-2 col-sm-2">Cédula</label>
 			<div class="col-md-4 col-sm-4">
-				<input type="number" id="cedula" name="cedula" class="form-control text-center" required="" value="<?= $medico ? $medico->cedula : ''; ?>">
+				<input type="number" id="cedula" name="cedula" class="form-control text-center" required="" value="<?= $enfermera ? $enfermera->cedula : ''; ?>">
 			</div>
 		</div>
 		<div class="form-group">
 			<label for="" class="control-label col-md-2 col-sm-2">Telefono</label>
 			<div class="col-md-4 col-sm-4">
-				<input type="number" id="telefono" name="telefono" class="form-control text-center" required="" value="<?= $medico ? $medico->telefono : ''; ?>">
+				<input type="number" id="telefono" name="telefono" class="form-control text-center" required="" value="<?= $enfermera ? $enfermera->telefono : ''; ?>">
 			</div>
 			<label for="" class="control-label col-md-2 col-sm-2">Fecha Nacimiento</label>
 			<div class="col-md-4 col-sm-4">
-				<input type="text" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control text-center date-picker" required="" value="<?= $medico ? date('d-m-Y',strtotime($medico->fecha_nacimiento)) : ''; ?>">
+				<input type="text" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control text-center date-picker" required="" value="<?= $enfermera ? date('d-m-Y',strtotime($enfermera->fecha_nacimiento)) : ''; ?>">
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="" class="control-label col-md-2 col-sm-2">Categoría</label>
+			<label for="" class="control-label col-md-2 col-sm-2">Dirección</label>
 			<div class="col-md-4 col-sm-4">
-				<select name="categoria" id="categoria" class="form-control" required="">
-					<option value=""></option>
-					<?
-						$system->sql = "SELECT * from hospital.categorias";
-						foreach ($system->sql() as $row) 
-						{
-							if($medico)
-							{
-								if($medico->categoria == $row->id)
-								{
-									echo '<option value="'.$row->id.'" selected>'.$row->nombre.'</option>';
-								}
-								else
-								{
-									echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';
-								}
-							}
-							else
-							{
-								echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';
-							}
-						}
-					?>			
-				</select>
+				<textarea name="direccion" id="direccion" rows="3" class="form-control" required=""><?= $enfermera ? $enfermera->direccion : ''; ?> </textarea>
 			</div>
-			<label for="" class="control-label col-md-2 col-sm-2">Departamento</label>
-			<div class="col-md-4 col-sm-4">
-				<select name="departamento" id="departamento" class="form-control" required="">
-					<option value=""></option>
-					<?
-						$system->sql = "SELECT * from hospital.departamentos";
-						foreach ($system->sql() as $row) 
-						{
-							if($medico)
-							{
-								if($medico->departamento == $row->id)
-								{
-									echo '<option value="'.$row->id.'" selected>'.$row->nombre.'</option>';
-								}
-								else
-								{
-									echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';
-								}
-							}
-							else
-							{
-								echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';
-							}
-						}
-					?>			
-				</select>
-			</div>
-		</div>
-		<div class="form-group">
 			<label for="" class="control-label col-md-2 col-sm-2">Turno</label>
 			<div class="col-md-4 col-sm-4">
 				<select name="turno" id="turno" class="form-control" required="">
@@ -106,9 +54,9 @@
 						$system->sql = "SELECT * from hospital.turnos";
 						foreach ($system->sql() as $row) 
 						{
-							if($medico)
+							if($enfermera)
 							{
-								if($medico->turno == $row->id)
+								if($enfermera->turno == $row->id)
 								{
 									echo '<option value="'.$row->id.'" selected>'.$row->turno.'</option>';
 								}
@@ -131,7 +79,7 @@
 				<button type="submit" class="btn btn-primary btn-block" <?= $_SESSION['nivel'] == 4 ? 'disabled': ''; ?>>Guardar&nbsp;<i class="fa fa-send"></i></button>
 			</div>
 			<div class="col-md-offset-1 col-sm-offset-1  col-md-3 col-sm-3">
-				<a href="<?= './index.php' ?>">Regresar a la Vista de Medicos</a>
+				<a href="<?= './index.php' ?>">Regresar a la Vista de Enfermería</a>
 			</div>
 		</div>
 		<div class="form-group" id="div_alerta" style="display: none">

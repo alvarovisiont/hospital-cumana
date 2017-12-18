@@ -52,7 +52,7 @@
 		 		$res->bindParam(':usuario', $user, PDO::PARAM_STR);
 		 		$res->execute();
 
-		 		
+		 			
 		 		$total = $res->rowCount();
 
 		 		if($total > 0)
@@ -72,7 +72,6 @@
 		 			}
 		 			else
 		 			{
-		 				exit();
 		 				header('location: login.php?r=0');	
 			 		}	
 		 		}
@@ -185,13 +184,20 @@
 		 			
 		 			if($value == "")
 		 			{
-		 				$value = NULL;
+		 				$value = 0;
+		 			}
+		 			else
+		 			{
+		 				if(!is_array($value))
+		 				{
+		 					$value = trim($value);
+		 				}
 		 			}
 		 			
 		 			$value = str_replace("'", '"', $value);
 					
 					$keys .= $key.",";
-	 				$values .= "'".trim($value)."'".",";		 				
+	 				$values .= "'".$value."'".",";		 				
 		 		}
 		 		
 		 		$keys = substr($keys, 0,strlen($keys) -1);
@@ -210,9 +216,14 @@
 
 			 		$res = null;
 
+			 		
+			 		$this->sql = "SELECT max(id) as id from $this->table";
+
+			 		$id = $this->sql();
+
 			 		$this->table = null;
 
-				 	$data = ['r' => true];
+				 	$data = ['r' => true, 'id' => $id[0]->id];
 			 	}
 			 	catch(PDOException $e)
 			 	{
@@ -315,7 +326,7 @@
 		 		}
 		 		else
 		 		{
-		 			$sql = "SELECT * from ".$this->table." WHERE ".$this->where."LIMIT 1";	
+		 			$sql = "SELECT * from ".$this->table." WHERE ".$this->where." LIMIT 1";	
 		 		}
 
 		 		$res = $this->connPostgre->prepare($sql);
@@ -389,20 +400,16 @@
 
 		 }
 
-		 public function cols_boostrap($cantidad)
+		 public function parse_empty($value)
 		 {
-		 		$col = "";
-
-		 		if($cantidad >= 4)
-		 		{
-		 			$col = 3;
-		 		}
-		 		else
-		 		{
-		 			$col = 12 / $cantidad;
-		 		}
-
-		 		return $col;
+		 	if($value == trim('0') )
+		 	{
+		 		return '';
+		 	}
+		 	else
+		 	{
+		 		return $value;
+		 	}
 		 }
 	}
 ?>
