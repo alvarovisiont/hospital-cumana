@@ -323,60 +323,6 @@
 <script>
 	$(function(){
 
-		valida_envio_formulario = true
-
-		$('#form_registrar').submit(function(e){
-			e.preventDefault()
-
-			if(!valida_envio_formulario)
-			{
-				return false
-			}
-
-			
-			var tipo = $('input[name="action"]').val()
-
-			$.ajax({
-
-				url: './operaciones.php',
-				type: 'POST',
-				data: $(this).serialize(),
-				dataType: 'JSON',
-				success: function(data)
-				{
-					if(data.r)
-					{
-						if(tipo == 'registrar')
-						{
-							valida_envio_formulario = false
-							$('#div_alerta').show('slow/400/fast')
-						}
-						else
-						{
-							$('#div_alerta_modificado').show('slow/400/fast', function(){
-								setTimeout(function(){
-									window.location.href = './index.php'
-								},1500)	
-							})
-							
-						}
-					}
-				}
-			})
-		})
-
-		$('#agregar_si').click(function(){
-			
-			$('#div_alerta').hide('slow/400/fast')
-			$('#form_registrar')[0].reset()
-			valida_envio_formulario = true
-		})
-
-		$('#agregar_no').click(function(){
-				window.location.href = './index.php'
-		})
-
-
 // ========================= FIELDSETS DEL FORMULARIO ===============================================
 
 		var current = 1,current_step,next_step,steps;
@@ -478,6 +424,74 @@
 		  .css("width",percent+"%")
 		  .html(percent+"%");   
 		}*/
+
+
+// =============================== ENVIO DEL FORMULARIO ======================================================
+
+		valida_envio_formulario = true
+
+		$('#form_registrar').submit(function(e){
+			e.preventDefault()
+
+			if(!valida_envio_formulario)
+			{
+				return false
+			}
+
+			
+			var tipo = $('input[name="action"]').val()
+
+			$.ajax({
+
+				url: './operaciones.php',
+				type: 'POST',
+				data: $(this).serialize(),
+				dataType: 'JSON',
+				success: function(data)
+				{
+					if(data.r)
+					{
+						if(tipo == 'registrar')
+						{
+							valida_envio_formulario = false
+							$('#div_alerta').show('slow/400/fast')
+						}
+						else
+						{
+							$('#div_alerta_modificado').show('slow/400/fast', function(){
+								setTimeout(function(){
+									window.location.href = './index.php'
+								},1500)	
+							})
+							
+						}
+					}
+				}
+			})
+		})
+
+		$('#agregar_si').click(function(){
+			
+			$('#div_alerta').hide('slow/400/fast')
+			$('#form_registrar')[0].reset()
+
+			current_step = $(this).parent().parent().parent();
+			next_step = $(this).parent().parent().parent().prev().prev();
+
+			next_step.show();
+			current_step.hide();
+
+			current = 1;
+
+			valida_envio_formulario = true
+		})
+
+		$('#agregar_no').click(function(){
+				window.location.href = './index.php'
+		})
+
+
+
 
 	})
 </script>
