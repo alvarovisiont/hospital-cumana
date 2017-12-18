@@ -78,7 +78,7 @@
 				<div class="form-group">
 					<label for="" class="control-label col-md-2">Usuario</label>
 					<div class="col-md-4">
-						<input type="text" id="usuario" name="usuario" class="form-control" required="" value="<?= $usuario ? $usuario->usuario : ''; ?>">
+						<input type="email" id="usuario" name="usuario" class="form-control" required="" value="<?= $usuario ? $usuario->usuario : ''; ?>">
 					</div>
 					<label for="" class="control-label col-md-2">Password</label>
 					<div class="col-md-4">
