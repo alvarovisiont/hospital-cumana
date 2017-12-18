@@ -82,7 +82,7 @@
 					</div>
 					<label for="" class="control-label col-md-2">Password</label>
 					<div class="col-md-4">
-						<input type="text" id="password" name="password" class="form-control" required="" value="<?= $usuario ? $usuario->password : ''; ?>">
+						<input type="text" id="password" name="password" class="form-control" value="" <?= !$usuario ? 'required' : '' ?>>
 					</div>
 				</div>
 		  </div>

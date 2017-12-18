@@ -46,7 +46,32 @@
 			$_POST['patologias'] = $patologias;
 
 			$system->table = "emergencia.ingreso_emergencia";
-			echo json_encode($system->guardar($_POST));
+			$res = $system->guardar($_POST);
+
+			unset($_POST['motivo_admision']);
+			unset($_POST['enfermedad_actual']);
+			unset($_POST['diagnostico_admision']);
+			unset($_POST['medico_admision']);
+			unset($_POST['medico_departamento']);
+			unset($_POST['created_at']);
+			unset($_POST['update_at']);
+
+			if($res['r'] === true && $_POST['cedula'] !== "")
+			{
+				$system->table = "emergencia.historial_emergencias";
+				$system->where = "cedula = $_POST[cedula]";
+				$total = $system->count();
+				if($total < 1)
+				{
+					$system->table = "emergencia.historial_emergencias";
+					echo json_encode($system->guardar($_POST));
+				}
+			}
+			else
+			{
+				echo json_encode($res);
+			}
+
 		break;
 
 		case 'modificar':

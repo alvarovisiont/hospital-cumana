@@ -85,6 +85,7 @@
 		
 			$res = "";
 			$id_modificar = $_POST['id_modificar'];
+			$data = "";
 
 			unset($_POST['action']);
 			unset($_POST['id_modificar']);
@@ -92,16 +93,36 @@
 			$system->table = "public.users";
 			$system->where = "id = $id_modificar";
 
-			$data = [
-				'nombre_completo' => $_POST['nombre_completo'],
-				'cedula' => $_POST['cedula'],
-				'usuario' => $_POST['usuario'],
-				'password' => $_POST['password'],
-				'telefono' => $_POST['telefono'],
-				'rol_id' => $_POST['rol_id'],
-				'created_at' => $_POST['created_at'],
-				'updated_at' => $_POST['updated_at']
-			];
+
+			if($_POST['password'] !== '')
+			{
+				$_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
+				
+				$data = [
+					'nombre_completo' => $_POST['nombre_completo'],
+					'cedula' => $_POST['cedula'],
+					'usuario' => $_POST['usuario'],
+					'password' => $_POST['password'],
+					'telefono' => $_POST['telefono'],
+					'rol_id' => $_POST['rol_id'],
+					'created_at' => $_POST['created_at'],
+					'updated_at' => $_POST['updated_at']
+				];	
+			}
+			else
+			{
+				$data = [
+					'nombre_completo' => $_POST['nombre_completo'],
+					'cedula' => $_POST['cedula'],
+					'usuario' => $_POST['usuario'],
+					'telefono' => $_POST['telefono'],
+					'rol_id' => $_POST['rol_id'],
+					'created_at' => $_POST['created_at'],
+					'updated_at' => $_POST['updated_at']
+				];		
+			}
+
+			
 
 			$system->modificar($data);
 
