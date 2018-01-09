@@ -13,20 +13,14 @@
 			unset($_POST['action']);
 			unset($_POST['id_modificar']);	
 
-			$_POST['fecha_ingreso'] = date('Y-m-d',strtotime($_POST['fecha_ingreso']));
-			$_POST['fecha_expension'] = date('Y-m-d',strtotime($_POST['fecha_expension']));
-
-			$system->table = "hospital.almacen";
+			$system->table = "hospital.grupo_medicinas";
 			echo json_encode($system->guardar($_POST));
 		break;
 
 		case 'modificar':
 
-			$system->table = "hospital.almacen";
+			$system->table = "hospital.grupo_medicinas";
 			$system->where = "id = $_POST[id_modificar]";
-
-			$_POST['fecha_ingreso'] = date('Y-m-d',strtotime($_POST['fecha_ingreso']));
-			$_POST['fecha_expension'] = date('Y-m-d',strtotime($_POST['fecha_expension']));
 
 			unset($_POST['action']);
 			unset($_POST['id_modificar']);	
@@ -35,7 +29,7 @@
 		break;
 
 		case 'eliminar':
-			$system->table = "hospital.almacen";
+			$system->table = "hospital.grupo_medicinas";
 			$system->where = "id = $_GET[id]";
 
 			echo json_encode($system->eliminar());

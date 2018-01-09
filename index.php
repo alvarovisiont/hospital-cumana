@@ -18,8 +18,6 @@
 	
 	$_SESSION['base_url1'] = 'http://'.$_SERVER['HTTP_HOST'].'/'.explode('/',$_SERVER['REQUEST_URI'])[1];
 
-	
-
 ?>
 <html>
 	<head>

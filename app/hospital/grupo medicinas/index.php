@@ -6,14 +6,14 @@
 
 	include_once $_SESSION['base_url'].'/partials/header.php';
 
-	$system->table = "hospital.almacen";
+	$system->table = "hospital.grupo_medicinas";
 	$total = $system->count();
 ?>
 	<div class="info-box">
 	  <!-- Apply any bg-* class to to the icon to color it -->
 	  	<span class="info-box-icon bg-yellow"><i class="fa fa-star-o"></i></span>
 	  	<div class="info-box-content">
-		    <span class="info-box-text">Total Productos </span>
+		    <span class="info-box-text">Total Grupos </span>
 	    	<span class="info-box-number" id="total_registros"><?= $total; ?></span>
 	    	<br>
 	  	</div><!-- /.info-box-content -->
@@ -23,20 +23,16 @@
 	</p>
 	<div class="box box-danger color-palette-box">
 	    <div class="box-header with-border">
-	      	<h2 class="box-title"><i class="fa fa-bank"></i>&nbsp;&nbsp;Productos Registrados</h2>
+	      	<h2 class="box-title"><i class="fa fa-box"></i>&nbsp;&nbsp;Grupos Registrados</h2>
 	      	<div class="pull-right">
-	       		<a href="./create.php" class="btn btn-primary btn-flat btn-md pull-right">Registrar Productos&nbsp;&nbsp;<i class="fa fa-pencil"></i><i class="fa fa-plus"></i></a>
+	       		<a href="./create.php" class="btn btn-primary btn-flat btn-md pull-right">Registrar Grupos&nbsp;&nbsp;<i class="fa fa-pencil"></i><i class="fa fa-plus"></i></a>
 	      	</div>
 	    </div>
 	    <div class="box-body">
 	    	<table class="table table-hover table-bordered">
 	    		<thead>
 	    			<tr>
-	    				<th class="text-center">Producto</th>
-	    				<th class="text-center">Componente</th>
-	    				<th class="text-center">Cantidad Disponible</th>
-	    				<th class="text-center">Fecha Ingreso</th>
-	    				<th class="text-center">Cantidad Expensión</th>
+	    				<th class="text-center">Grupo</th>
 	    				<? if($_SESSION['nivel'] !== 4)
 	    				{
 	    					echo '<th class="text-center">Acción</th>';
@@ -46,17 +42,15 @@
 	    		</thead>
 	    		<tbody class="text-center">
 	    			<?
-	    				$system->sql = "SELECT *, 
-	    								to_char(fecha_ingreso, 'DD-MM-YYYY HH:MM:SS') as fecha_ingreso,
-	    								to_char(fecha_expension, 'DD-MM-YYYY HH:MM:SS') as fecha_expension
-	    								from hospital.almacen";
+	    				$system->sql = "SELECT *
+	    								from hospital.grupo_medicinas";
 	    				foreach ($system->sql() as $row) 
 	    				{
 	    					$fila = "";
 
 	    					if($_SESSION['nivel'] !== 4)
 	    					{	
-	    						$boton = '<a href="./view.php?id='.$row->id.'" class="letras_medianas" title="modificar"><i class="fa fa-search"></i></a>
+	    						$boton = '<a href="./create.php?modificar='.$row->id.'" class="letras_medianas" title="modificar"><i class="fa fa-edit"></i></a>
 	    							&nbsp;
 	    							<a href="#" class="letras_medianas eliminar" data-eliminar="'.$row->id.'" title="eliminar"><i class="fa fa-trash"></i></a>';
 
@@ -65,11 +59,7 @@
 
 	    					echo "
 								<tr>
-									<td>{$row->producto}</td>
-									<td>{$row->componente}</td>
-									<td>{$row->cantidad}</td>
-									<td>{$row->fecha_ingreso}</td>
-									<td>{$row->fecha_expension}</td>
+									<td>{$row->nombre}</td>
 									{$fila}
 								</tr>
 	    					";

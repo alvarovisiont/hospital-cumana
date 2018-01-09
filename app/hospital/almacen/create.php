@@ -10,7 +10,7 @@
 
 	if(isset($_GET['modificar']))
 	{
-		$system->table = "hospital.categorias";
+		$system->table = "hospital.almacen";
 		$producto = $system->find($_GET['modificar']);
 	}
 ?>
@@ -23,13 +23,70 @@
 		<div class="form-group">
 			<label for="" class="control-label col-md-2 col-sm-2">Producto</label>
 			<div class="col-md-4 col-sm-4">
-				<input type="text" id="producto" name="producto" class="form-control text-center" required="" value="<?= $producto ? $producto->producto : ''; ?>">
+				<input type="text" id="producto" name="producto" class="form-control" required="" value="<?= $producto ? $producto->producto : ''; ?>">
 			</div>
+			<label for="componente" class="control-label col-md-2 col-sm-2">Componente</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="text" id="componente" name="componente" required="" class="form-control" value="<?= $producto ? $producto->componente : ''; ?>">
+			</div>
+		</div>
+		<div class="form-group">
 			<label for="" class="control-label col-md-2 col-sm-2">Cantidad</label>
 			<div class="col-md-4 col-sm-4">
-				<input type="number" id="cantidad" name="cantidad" class="form-control text-center" required="" value="<?= $producto ? $producto->cantidad : ''; ?>">
+				<input type="number" id="cantidad" name="cantidad" class="form-control" required="" value="<?= $producto ? $producto->cantidad : ''; ?>">
 			</div>
-			
+		</div>
+		<div class="form-group">
+			<label for="grupo_id" class="control-label col-md-2 col-sm-2">Grupo</label>
+			<div class="col-md-4 col-sm-4">
+				<select name="grupo_id" id="grupo_id" class="form-control" required="">
+					<option value=""></option>
+					<?
+						$system->sql = "SELECT * from hospital.grupo_medicinas";
+						foreach ($system->sql() as $row) 
+						{
+							if($producto && $producto->grupo_id == $row->id)
+							{
+								echo '<option value="'.$row->id.'" selected>'.$row->nombre.'</option>';
+							}
+							else
+							{
+								echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';	
+							}
+						}
+					?>
+				</select>
+			</div>
+			<label for="marca_id" class="control-label col-md-2 col-sm-2">Marca</label>
+			<div class="col-md-4 col-sm-4">
+				<select name="marca_id" id="marca_id" class="form-control" required="">
+					<option value=""></option>
+					<?
+						$system->sql = "SELECT * from hospital.marca_medicinas";
+						foreach ($system->sql() as $row) 
+						{
+							if($producto && $producto->marca_id == $row->id)
+							{
+								echo '<option value="'.$row->id.'" selected>'.$row->nombre.'</option>';
+							}
+							else
+							{
+								echo '<option value="'.$row->id.'">'.$row->nombre.'</option>';	
+							}
+						}
+					?>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="fecha_ingreso" class="control-label col-md-2 col-sm-2">Fecha Entrada</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="text" id="fecha_ingreso" name="fecha_ingreso" required="" class="form-control date-picker" value="<?= $producto ? date('d-m-Y',strtotime( $producto->fecha_ingreso )) : '' ?>">
+			</div>
+			<label for="fecha_expension" class="control-label col-md-2 col-sm-2">Fecha Expensión</label>
+			<div class="col-md-4 col-sm-4">
+				<input type="text" id="fecha_expension" name="fecha_expension" required="" class="form-control date-picker" value="<?= $producto ? date('d-m-Y',strtotime( $producto->fecha_expension )) : '' ?>">
+			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-md-4 col-sm-4 col-md-offset-4 col-sm-offset-4">
